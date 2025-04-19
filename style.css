@@ -1,0 +1,77 @@
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #222;
+    background-color: #fafafa;
+}
+
+h1 {
+    color: #0a2342;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.3em;
+}
+
+h2 {
+    color: #2c4a6d;
+}
+
+a {
+    color: #1a5f96;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: #0a2342;
+    text-decoration: underline;
+}
+
+ul {
+    padding-left: 1.8em;
+}
+li {
+    margin-bottom: 0.6em;
+}
+
+.sc {
+    font-variant: small-caps;
+    color: #2c4a6d;
+}
+.gray {
+    color: #6d6d6d;
+}
+
+.paper-title {
+    font-weight: 600;
+    color: #0a2342;
+}
+
+.journal-name {
+    font-style: italic;
+    color: #6d6d6d;
+}
+
+.date {
+    color: #5f5f5f;
+    font-size: 0.9em;
+}
+
+.publication {
+    margin-bottom: 1.2em;
+    padding-bottom: 1em;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.section {
+    margin-top: 2em;
+    margin-bottom: 1.5em;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+        font-size: 0.95em;
+    }
+}
