@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Zhizheng Fu | Email | GitHub Link" />
+  <title>Proxy</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Proxy</h1>
+<p class="author"><a href="index.html">Zhizheng Fu</a> | <a
+href="mailto:zhizheng.foo@gmail.com">Email</a> | <a
+href="https://github.com/ZhizhengFu/intranet-proxy-builder">GitHub
+Link</a></p>
+<p class="date">Last updated: 2025-04-25</p>
+</header>
+<hr />
+<h1 id="introduction">Introduction</h1>
+<h2 id="what-is-intranet-server">What is intranet server?</h2>
+<p>An intranet server is a server that hosts resources and services
+within a private network known as an intranet. Unlike the internet,
+which is publicly accessible, an intranet is a restricted network
+accessible only to authorized users within an organization.</p>
+<h2 id="what-is-nginx">What is nginx?</h2>
+<p>Nginx is a high-performance, open-source web server, reverse proxy
+server, load balancer, and HTTP cache. Originally developed by Igor
+Sysoev, it is known for its speed, efficiency, and scalability, making
+it one of the most popular choices for serving web content and managing
+internet traffic.</p>
+<h2
+id="how-an-intranet-server-connects-to-extranet-such-as-internet">How an
+intranet server connects to extranet (such as internet)?</h2>
+<ol>
+<li><p><strong>Direct Connection:</strong></p>
+<ul>
+<li><p>The intranet server connects directly to the local area network
+(LAN) via a router or switch. The LAN is then connected to the external
+network, such as the internet, through a router.</p></li>
+<li><p>This method requires proper configuration of the router or switch
+to allow communication between the intranet server and the external
+network.</p></li>
+<li><p>This is what you did when you connected to the campus network
+using <code>p.nju.edu.cn</code>.</p></li>
+</ul></li>
+<li><p><strong>Using a Proxy Server:</strong></p>
+<ul>
+<li><p>An intranet server can access the internet through a proxy
+server. A proxy server acts as an intermediary between the intranet
+server and the internet, forwarding requests and responses between the
+two networks.</p></li>
+<li><p>This allows the intranet server to access external resources and
+services while maintaining security and control over the network
+traffic.</p></li>
+<li><p>This is what I want to introduce in this article.</p></li>
+</ul></li>
+</ol>
+<p>I highly recommend the following method. <code>nginx</code> is
+extremely powerful, not difficult to configure, highly customizable,
+pure command line, and everything is in your own hands.</p>
+<p>If you are using <code>Windows</code>, then CCproxy is also an
+extremely simple method. This is a Chinese application with a graphical
+interface, but it is not so elegant, has a single function and poor
+performance. I will mention it in the <a
+href="#sec:ccproxy"><strong>section 3</strong></a>.</p>
+<h1 id="setting-up-a-proxy-server-with-nginx">Setting up a proxy server
+with <code>nginx</code></h1>
+<blockquote>
+<p><strong>Note:</strong> This document is using the <code>OS X</code>
+system, so Windows’s <code>commands</code> and <code>path</code> may
+differ.</p>
+<p><strong>Notation:</strong> Suppose A is the intranet server which
+needs to access the internet, and B is the proxy server that connects to
+the internet and can communicate with A.</p>
+</blockquote>
+<p>To set up a proxy server with nginx, follow these steps:</p>
+<p>⚠️<span style="color: red">Confuse about running too many commands?
+Try to visit <a
+href="https://github.com/ZhizhengFu/intranet-proxy-builder">this
+page</a> for script.</span></p>
+<h2 id="operation-on-b">Operation on B</h2>
+<h3 id="install-nginx">Install nginx</h3>
+<ol>
+<li><p>Install nginx on B.</p>
+<blockquote>
+<p>There is no specific version requirement. I downloaded 1.19.9. The
+following text uses 1.19.9 as an example.</p>
+</blockquote>
+<div class="sourceCode" id="cb1" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http://nginx.org/download/nginx-1.19.9.tar.gz</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> nginx-1.19.9.tar.gz</span></code></pre></div></li>
+<li><p>Install patch for nginx.</p>
+<blockquote>
+<p>Based on the nginx version you selected, find the corresponding
+version <a
+href="https://github.com/chobits/ngx_http_proxy_connect_module">patch</a>.</p>
+</blockquote>
+<div class="sourceCode" id="cb2" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/chobits/ngx_http_proxy_connect_module.git</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> nginx-1.19.9</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">patch</span> <span class="at">-p1</span> <span class="op">&lt;</span> ../ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_1018.patch</span></code></pre></div></li>
+<li><p>Install dependencies.</p>
+<div class="sourceCode" id="cb3" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://www.openssl.org/source/openssl-3.0.13.tar.gz</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> openssl-3.0.13.tar.gz</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://sourceforge.net/projects/pcre/files/pcre/8.35/pcre-8.35.tar.gz</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> pcre-8.35.tar.gz</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://zlib.net/zlib-1.3.1.tar.gz</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> zlib-1.3.1.tar.gz</span></code></pre></div></li>
+<li><p>Configure and install nginx.</p>
+<div class="sourceCode" id="cb4" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> nginx-1.19.9</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ./configure <span class="at">--with-openssl</span><span class="op">=</span>../openssl-3.0.13 <span class="at">--with-pcre</span><span class="op">=</span>../pcre-8.35 <span class="at">--with-zlib</span><span class="op">=</span>../zlib-1.3.1 <span class="at">--add-module</span><span class="op">=</span>../ngx_http_proxy_connect_module <span class="at">--prefix</span><span class="op">=</span>/usr/local/nginx <span class="at">--with-http_ssl_module</span> <span class="at">--with-http_stub_status_module</span> <span class="at">--with-threads</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> make</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> make install</span></code></pre></div></li>
+</ol>
+<h3 id="configure-nginx">Configure nginx</h3>
+<ol>
+<li><p>Check if nginx is installed successfully.</p>
+<div class="sourceCode" id="cb5" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/local/nginx/sbin/nginx</span> <span class="at">-V</span></span></code></pre></div>
+<blockquote>
+<p>The following information should be displayed:</p>
+<div class="sourceCode" id="cb6" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nginx</span> version: nginx/1.19.9</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">built</span> by clang 15.0.0 <span class="er">(</span><span class="ex">clang-1500.1.0.2.5</span><span class="kw">)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">built</span> with OpenSSL 3.0.13 30 Jan 2024</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">TLS</span> SNI support enabled</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">configure</span> arguments: <span class="at">--with-openssl</span><span class="op">=</span>../openssl-3.0.13 <span class="at">--with-pcre</span><span class="op">=</span>../pcre-8.35 <span class="at">--with-zlib</span><span class="op">=</span>../zlib-1.3.1 <span class="at">--add-module</span><span class="op">=</span>../ngx_http_proxy_connect_module <span class="at">--prefix</span><span class="op">=</span>/usr/local/nginx <span class="at">--with-http_ssl_module</span> <span class="at">--with-http_stub_status_module</span> <span class="at">--with-threads</span></span></code></pre></div>
+</blockquote></li>
+<li><p>Keep in mind the two important paths:</p>
+<div class="sourceCode" id="cb7" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/local/nginx/sbin/nginx</span> <span class="co"># nginx executable file</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/local/nginx/conf/nginx.conf</span> <span class="co"># nginx configuration file</span></span></code></pre></div></li>
+<li><p>Edit the configuration file.</p>
+<div class="sourceCode" id="cb8" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /usr/local/nginx/conf/</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> vim nginx.conf</span></code></pre></div>
+<p>Change the configuration file content to the following:</p>
+<pre class="nginx" data-language="nginx"><code>worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server{
+      listen 8000;
+      resolver 114.114.114.114;
+      proxy_connect;
+      proxy_connect_allow 443 563;
+      proxy_connect_connect_timeout 10s;
+      proxy_connect_read_timeout 10s;
+      proxy_connect_send_timeout 10s;
+      location / {
+          proxy_pass http://$host;
+          proxy_set_header Host $host;
+      }
+    }
+}</code></pre></li>
+<li><p><strong>Test</strong> the configuration file:</p>
+<div class="sourceCode" id="cb10" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> /usr/local/nginx/sbin/nginx <span class="at">-t</span></span></code></pre></div>
+<p>If an error is returned, check your configuration file, especially if
+the brackets match!</p></li>
+<li><p>If the test is successful, <strong>reload</strong> nginx:</p>
+<div class="sourceCode" id="cb11" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> /usr/local/nginx/sbin/nginx <span class="at">-s</span> reload</span></code></pre></div></li>
+<li><p>If the <strong>reload</strong> command fails:</p>
+<div class="sourceCode" id="cb12" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nginx:</span> <span class="pp">[</span><span class="ss">error</span><span class="pp">]</span> open<span class="er">(</span><span class="kw">)</span> <span class="st">&quot;/usr/local/nginx/logs/nginx.pid&quot;</span> failed <span class="er">(</span><span class="ex">2:</span> No such file or directory<span class="kw">)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nginx:</span> <span class="pp">[</span><span class="ss">error</span><span class="pp">]</span> invalid PID number <span class="st">&quot;&quot;</span> in <span class="st">&quot;/usr/local/nginx/logs/nginx.pid&quot;</span></span></code></pre></div>
+<p>You can use the following command first:</p>
+<div class="sourceCode" id="cb13" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> /usr/local/nginx/sbin/nginx <span class="at">-c</span> /usr/local/nginx/conf/nginx.conf</span></code></pre></div>
+<p>Then use the <strong>reload</strong> command again.</p></li>
+</ol>
+<h2 id="operation-on-a">Operation on A</h2>
+<p>Configure the intranet server to use the proxy server in your bash
+profile.</p>
+<ol>
+<li><p>Edit the <code>.bash_profile</code> or <code>.profile</code>:</p>
+<div class="sourceCode" id="cb14" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vim</span> ~/.bash_profile</span></code></pre></div></li>
+<li><p>Add the following content to the file:</p>
+<div class="sourceCode" id="cb15" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">http_proxy</span><span class="op">=</span>http://ip:8000</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">https_proxy</span><span class="op">=</span>http://ip:8000</span></code></pre></div>
+<div class="center">
+<p><span style="color: purple"><strong>!!!Replace <code>ip</code> with
+the <code>IP address</code> of the proxy server –
+B!!!</strong></span></p>
+</div>
+<ul>
+<li><p><strong>macOS</strong>: Open <strong>System Settings</strong> →
+<strong>Wi-Fi</strong> → <strong>Details</strong> →
+<strong>TCP/IP</strong> to find IP address</p></li>
+<li><p><strong>Linux</strong>:</p>
+<ul>
+<li><p>Wireless connection:</p>
+<div class="sourceCode" id="cb16" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ipconfig</span> getipaddr en0</span></code></pre></div></li>
+<li><p>Wired connection:</p>
+<div class="sourceCode" id="cb17" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ipconfig</span> getipaddr en1</span></code></pre></div></li>
+</ul></li>
+<li><p><strong>Windows</strong>: Open WiFi settings → Click connected
+network → Find <code>IPv4 address</code></p></li>
+</ul></li>
+<li><p>Make it take effect immediately:</p>
+<div class="sourceCode" id="cb18" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bash_profile</span></code></pre></div></li>
+</ol>
+<h1 id="sec:ccproxy">Simple explanation of <code>CCproxy</code></h1>
+<ol>
+<li><p>Download and install <code>CCproxy</code>:</p>
+<ul>
+<li><p><a
+href="https://www.youngzsoft.net/ccproxy/download.htm">Download
+link</a></p></li>
+</ul></li>
+<li><p>Open <code>CCproxy</code> and configure:</p>
+<ul>
+<li><p>Set up account</p></li>
+<li><p>Set <code>allowed range</code> to
+<code>allowed part</code></p></li>
+<li><p>Click <code>New</code> and enter proxy server IP</p></li>
+</ul></li>
+<li><p>Restart and click <code>Start</code></p></li>
+<li><p><code>Operation on A</code> is identical to Section 2.2</p></li>
+</ol>
+<h1 id="tips-you-should-know-about">Tips you should know about</h1>
+<ol>
+<li><p>Restart proxy server after each computer reboot</p></li>
+<li><p>For NJU-WLAN:</p>
+<ul>
+<li><p>IP changes after reconnection</p></li>
+<li><p>Update IP in <code>.bash_profile</code> or
+<code>.profile</code></p></li>
+</ul></li>
+<li><p>Alternative proxy methods (no file editing needed):</p>
+<ul>
+<li><p>Python packages:</p>
+<div class="sourceCode" id="cb19" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--proxy</span><span class="op">=</span>http://ip:8000 package_name</span></code></pre></div></li>
+<li><p>APT packages:</p>
+<div class="sourceCode" id="cb20" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-o</span> Acquire::http::Proxy=<span class="st">&quot;http://ip:8000&quot;</span> package_name</span></code></pre></div></li>
+<li><p>File downloads:</p>
+<div class="sourceCode" id="cb21" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">--proxy</span><span class="op">=</span>on <span class="at">--proxy</span><span class="op">=</span>http://ip:8000 download_link</span></code></pre></div>
+<div class="sourceCode" id="cb22" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-x</span> http://ip:8000 download_link</span></code></pre></div></li>
+<li><p>Git operations:</p>
+<div class="sourceCode" id="cb23" data-language="bash"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> http.proxy http://ip:8000</span></code></pre></div></li>
+</ul></li>
+</ol>
+</body>
+</html>
